@@ -1,6 +1,6 @@
 {
   "name": "doithelib",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Node.js / TypeScript SDK for Cardswap Partner API — Đổi thẻ cào & Mua thẻ cào (card2k.com)",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

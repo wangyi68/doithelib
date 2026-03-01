@@ -4,7 +4,7 @@
 
 import { ChargingCommand } from './constants';
 import { createChargingSign, httpRequest } from './utils';
-import type { ApiConfig, SendCardParams, CheckCardParams, ChargeResponse } from './types';
+import type { ApiConfig, SendCardParams, CheckCardParams, ChargeResponse, FeeItem, CheckApiResponse } from './types';
 
 export class ChargingApi {
     private baseUrl: string;
@@ -48,10 +48,6 @@ export class ChargingApi {
         const sign = createChargingSign(this.partnerKey, params.code, params.serial);
 
         const body: Record<string, string> = {
-            telco: params.telco,
-            code: params.code,
-            serial: params.serial,
-            amount: String(params.amount),
             request_id: params.requestId,
             partner_id: this.partnerId,
             command: ChargingCommand.Check,
@@ -68,16 +64,16 @@ export class ChargingApi {
     }
 
     /** Lấy bảng chiết khấu */
-    async getFees(): Promise<unknown> {
+    async getFees(): Promise<FeeItem[]> {
         const url = `${this.baseUrl}/chargingws/v2/getfee?partner_id=${encodeURIComponent(this.partnerId)}`;
-        const res = await httpRequest(url, { method: 'GET', timeout: this.timeout });
+        const res = await httpRequest<FeeItem[]>(url, { method: 'GET', timeout: this.timeout });
         return res.data;
     }
 
     /** Kiểm tra trạng thái API */
-    async checkApi(): Promise<unknown> {
+    async checkApi(): Promise<CheckApiResponse> {
         const url = `${this.baseUrl}/chargingws/v2/check-api?partner_id=${encodeURIComponent(this.partnerId)}&partner_key=${encodeURIComponent(this.partnerKey)}`;
-        const res = await httpRequest(url, { method: 'GET', timeout: this.timeout });
+        const res = await httpRequest<CheckApiResponse>(url, { method: 'GET', timeout: this.timeout });
         return res.data;
     }
 }

@@ -4,7 +4,7 @@
  */
 
 import { httpRequest } from './utils';
-import type { ApiConfig } from './types';
+import type { ApiConfig, TransferHistoryResponse } from './types';
 
 export class TransferApi {
     private baseUrl: string;
@@ -18,11 +18,11 @@ export class TransferApi {
     }
 
     /** Lịch sử giao dịch chuyển tiền */
-    async getHistory(params: { limit?: number } = {}): Promise<unknown> {
+    async getHistory(params: { limit?: number } = {}): Promise<TransferHistoryResponse> {
         const limit = params.limit ?? 50;
         const url = `${this.baseUrl}/api/v1/partner/transfers?partner_key=${encodeURIComponent(this.partnerKey)}&limit=${limit}`;
 
-        const res = await httpRequest(url, { method: 'GET', timeout: this.timeout });
+        const res = await httpRequest<TransferHistoryResponse>(url, { method: 'GET', timeout: this.timeout });
         return res.data;
     }
 }

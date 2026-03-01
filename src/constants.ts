@@ -34,6 +34,7 @@ export enum ChargingCommand {
 export enum BuyCardCommand {
     BuyCard = 'buycard',
     GetBalance = 'getbalance',
+    CheckAvailable = 'checkavailable',
 }
 
 /** URL môi trường */

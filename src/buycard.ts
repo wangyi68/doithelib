@@ -4,7 +4,7 @@
 
 import { BuyCardCommand } from './constants';
 import { createBuyCardSign, createBalanceSign, httpRequest } from './utils';
-import type { ApiConfig, BuyParams, BuyResponse } from './types';
+import type { ApiConfig, BuyParams, BuyResponse, CheckStockParams, CheckStockResponse, BalanceResponse, ProductItem } from './types';
 
 export class BuyCardApi {
     private baseUrl: string;
@@ -44,19 +44,29 @@ export class BuyCardApi {
     }
 
     /** Lấy số dư tài khoản */
-    async getBalance(): Promise<unknown> {
+    async getBalance(): Promise<BalanceResponse> {
         const command = BuyCardCommand.GetBalance;
         const sign = createBalanceSign(this.partnerKey, this.partnerId, command);
         const url = `${this.baseUrl}/api/cardws?partner_id=${encodeURIComponent(this.partnerId)}&command=${command}&sign=${sign}`;
 
-        const res = await httpRequest(url, { method: 'GET', timeout: this.timeout });
+        const res = await httpRequest<BalanceResponse>(url, { method: 'GET', timeout: this.timeout });
+        return res.data;
+    }
+
+    /** Kiểm tra tồn kho thẻ */
+    async checkStock(params: CheckStockParams): Promise<CheckStockResponse> {
+        const command = BuyCardCommand.CheckAvailable;
+        const sign = createBalanceSign(this.partnerKey, this.partnerId, command);
+        const url = `${this.baseUrl}/api/cardws?partner_id=${encodeURIComponent(this.partnerId)}&command=${command}&service_code=${encodeURIComponent(params.serviceCode)}&value=${params.value}&qty=${params.qty}&sign=${sign}`;
+
+        const res = await httpRequest<CheckStockResponse>(url, { method: 'GET', timeout: this.timeout });
         return res.data;
     }
 
     /** Lấy danh sách sản phẩm thẻ */
-    async getProducts(): Promise<unknown> {
-        const url = `${this.baseUrl}/api/cardws/products`;
-        const res = await httpRequest(url, { method: 'GET', timeout: this.timeout });
+    async getProducts(): Promise<ProductItem[]> {
+        const url = `${this.baseUrl}/api/cardws/products?partner_id=${encodeURIComponent(this.partnerId)}`;
+        const res = await httpRequest<ProductItem[]>(url, { method: 'GET', timeout: this.timeout });
         return res.data;
     }
 }
