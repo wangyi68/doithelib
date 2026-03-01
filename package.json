@@ -1,0 +1,51 @@
+{
+  "name": "doithelib",
+  "version": "1.0.0",
+  "description": "Node.js / TypeScript SDK for Cardswap Partner API — Đổi thẻ cào & Mua thẻ cào (card2k.com)",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "ts-node tests/test.ts",
+    "example": "ts-node examples/basic.ts",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "cardswap",
+    "doithe",
+    "doi-the",
+    "the-cao",
+    "nap-the",
+    "card2k",
+    "viettel",
+    "mobifone",
+    "vinaphone",
+    "vietnam",
+    "topup",
+    "card-exchange",
+    "nencer"
+  ],
+  "author": "wangyi68",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wangyi68/doithelib.git"
+  },
+  "bugs": {
+    "url": "https://github.com/wangyi68/doithelib/issues"
+  },
+  "homepage": "https://github.com/wangyi68/doithelib#readme",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "ts-node": "^10.9.0",
+    "typescript": "^5.0.0"
+  }
+}

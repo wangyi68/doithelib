@@ -1,0 +1,9 @@
+dist/
+node_modules/
+tests/
+examples/
+.env
+*.log
+*.tgz
+tsconfig.json
+.gitignore
